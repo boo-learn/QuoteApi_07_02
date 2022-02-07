@@ -10,11 +10,10 @@ class AuthorResource(Resource):
             return authors_list, 200
 
         author = AuthorModel.query.get(author_id)
-        if author:
+        if not author:
             return f"Author id={author_id} not found", 404
 
         return author.to_dict(), 200
-
 
     def post(self):
         parser = reqparse.RequestParser()

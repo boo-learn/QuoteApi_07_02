@@ -30,20 +30,20 @@ class QuoteResource(Resource):
         quote_data = parser.parse_args()
         author = AuthorModel.query.get(author_id)
         if author:
-            quote = QuoteModel(author, quote_data["quote"])
+            quote = QuoteModel(author, quote_data["text"])
             db.session.add(quote)
             db.session.commit()
             return quote.to_dict(), 201
         return {"Error": f"Author id={author_id} not found"}, 404
 
-    def put(self, quote_id):
+    def put(self, author_id, quote_id):
         parser = reqparse.RequestParser()
-        parser.add_argument("author")
-        parser.add_argument("text")
+        # parser.add_argument("author")
+        parser.add_argument("text", required=True)
         new_data = parser.parse_args()
 
         quote = QuoteModel.query.get(quote_id)
-        quote.author = new_data["author"]
+        # quote.author.name = new_data["author"]
         quote.text = new_data["text"]
         db.session.commit()
         return quote.to_dict(), 200
