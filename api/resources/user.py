@@ -20,6 +20,17 @@ class UserResource(Resource):
         db.session.commit()
         return user_schema.dump(user), 201
 
-    # @auth.login_required
-    # def post(self, author_id):
-    #    ...
+    def put(self, user_id):
+        parser = reqparse.RequestParser()
+        parser.add_argument("username")
+        parser.add_argument("password")
+        data = parser.parse_args()
+        user = UserModel.query.get(user_id)
+        if data["username"]:
+            user.username = data["username"]
+        if data["password"]:
+            user.hash_password(data["password"])
+        db.session.commit()
+        return user_schema.dump(user)
+
+
