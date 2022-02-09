@@ -39,12 +39,10 @@ class QuoteResource(Resource):
 
     def put(self, author_id, quote_id):
         parser = reqparse.RequestParser()
-        # parser.add_argument("author")
         parser.add_argument("text", required=True)
         new_data = parser.parse_args()
 
         quote = QuoteModel.query.get(quote_id)
-        # quote.author.name = new_data["author"]
         quote.text = new_data["text"]
         db.session.commit()
         return quote.to_dict(), 200
