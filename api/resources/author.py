@@ -48,4 +48,4 @@ class AuthorResource(Resource):
         db.session.delete(author)
         db.session.commit()
         # return author.to_dict(), 200
-        return author_schema.dump(author), 200
+        return {"message": f"Author with={author_id} deleted"}, 200
